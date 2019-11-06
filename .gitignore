@@ -1,0 +1,10 @@
+
+images/
+
+in/coredns.yaml
+
+in/k3s.log
+
+in/kubeconfig.yaml
+
+in/rolebindings.yaml

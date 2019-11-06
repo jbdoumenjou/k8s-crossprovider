@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: test2.route
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`server`) && PathPrefix(`/api`)
+    kind: Rule
+    services:
+    - name: api@internal
+      kind: TraefikService
