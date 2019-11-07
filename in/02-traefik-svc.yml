@@ -24,20 +24,35 @@ spec:
       serviceAccountName: traefik-ingress-controller
       containers:
         - name: traefik
-#          image: traefik:local
-          image: traefik:v2.0
+          image: traefik:local
+#          image: traefik:v2.0
           args:
             - --log.level=DEBUG
             - --api=true
             - --api.insecure
             - --entrypoints.web.address=:80
+            - --entrypoints.api.address=:8000
             - --providers.kubernetescrd
+            - --providers.file
+            - --providers.file.filename=/etc/traefik/dynamic.toml
           ports:
             - name: web
               containerPort: 80
+            - name: api
+              containerPort: 8000
             - name: admin
               containerPort: 8080
-          type:
+          volumeMounts:
+            - mountPath: /etc/traefik/dynamic.toml
+              name: traefik-dynamic-configmap
+              subPath: dynamic.toml
+              readOnly: true
+
+      volumes:
+        - name: traefik-dynamic-configmap
+          configMap:
+            name: traefik-dynamic-configmap
+
 
 ---
 apiVersion: v1
@@ -56,4 +71,8 @@ spec:
       port: 8080
       name: admin
       targetPort: 8080
+    - protocol: TCP
+      port: 8000
+      name: api
+      targetPort: 8000
   type: LoadBalancer

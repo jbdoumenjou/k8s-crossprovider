@@ -11,8 +11,8 @@ spec:
   routes:
   - match: Host(`server`) && PathPrefix(`/bar`)
     kind: Rule
-    priority: 12
     services:
-    - name: whoami
+    - name: whoami@kubernetescrd
       port: 80
+
 

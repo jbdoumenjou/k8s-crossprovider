@@ -7,8 +7,10 @@ metadata:
 spec:
   entryPoints:
     - web
+
   routes:
-  - match: Host(`server`) && PathPrefix(`/api`)
+#  - match: Host(`server`)
+  - match: Host(`server`)  && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
     kind: Rule
     services:
     - name: api@internal

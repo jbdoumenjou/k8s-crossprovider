@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-dynamic-configmap
+  namespace: default
+data:
+  dynamic.toml: |
+    [[http.services.wrr1.weighted.services]]
+      name = "default-mirror1@kubernetescrd"
