@@ -1,0 +1,41 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: mirror2
+  namespace: toto
+
+spec:
+  mirroring:
+    name: whoami
+    namespace: default
+    kind: Service
+    port: 80
+    mirrors:
+      - name: whoami
+        namespace: default
+        kind: Service
+        percent: 50
+        port: 80
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: test5.route
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+  - match: Host(`server`) && PathPrefix(`/toto`)
+    kind: Rule
+    services:
+    - name: wrr2@file
+      kind: TraefikService
+    - name: mirror2
+      namespace: toto
+      kind: TraefikService
+
+
