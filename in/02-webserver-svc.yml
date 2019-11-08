@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: webserver
+  namespace: default
+  labels:
+    app: containous
+    name: webserver
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: containous
+      task: webserver
+  template:
+    metadata:
+      labels:
+        app: containous
+        task: webserver
+    spec:
+      containers:
+        - name: webservercontainer
+          image: httpd:2.4
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webserver
+  namespace: default
+
+spec:
+  ports:
+    - name: http
+      port: 80
+  selector:
+    app: containous
+    task: webserver
