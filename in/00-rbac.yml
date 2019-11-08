@@ -83,3 +83,6 @@ subjects:
   - kind: ServiceAccount
     name: traefik-ingress-controller
     namespace: default
+  - kind: ServiceAccount
+    name: traefik-ingress-controller
+    namespace: toto

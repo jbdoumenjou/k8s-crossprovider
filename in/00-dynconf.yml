@@ -7,3 +7,4 @@ data:
   dynamic.toml: |
     [[http.services.wrr1.weighted.services]]
       name = "default-mirror1@kubernetescrd"
+
